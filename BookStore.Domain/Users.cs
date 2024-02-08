@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace BookStore.Domain
 {
-    public class Book
+    public class Users
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string isbn { get; set; }
-        public string category { get; set; }
-        public bool Published { get; set; }
-
+        public string surname { get; set; }
+        public string phoneNumber { get; set; }
+        public string email { get; set; }
 
     }
 }
