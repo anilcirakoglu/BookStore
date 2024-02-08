@@ -1,4 +1,4 @@
-﻿using BookStore.Domain;
+﻿using BookStore.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,8 @@ namespace BookStore.Persistence.Context
     public class AppDbContext : DbContext
     {
         public DbSet<Book> Books { get; set; }
+        public DbSet<Users> Users { get; set; }
+        public DbSet<Prices> Prices { get; set; }
         //Users
         //ShoppingCartItems
 
