@@ -19,6 +19,7 @@ namespace BookStore.Controllers
         readonly private IBookWriteRepository _bookWriteRepository;
         readonly private IBookReadRepository _bookReadRepository;
         readonly private IPricesReadRepository _priceReadRepository;
+       
 
         public BooksController(IBookReadRepository bookReadRepository,IBookWriteRepository bookWriteRepository,IPricesReadRepository pricesReadRepository)
         {
@@ -26,6 +27,7 @@ namespace BookStore.Controllers
             _bookReadRepository = bookReadRepository;
             _bookWriteRepository = bookWriteRepository;
             _priceReadRepository = pricesReadRepository;
+          
             
         }
 
@@ -41,14 +43,15 @@ namespace BookStore.Controllers
         //}
         public  IActionResult GetAll()
         {
-            var books = _bookReadRepository.GetAll();
+            var books = _bookReadRepository.GetAll().ToList();
             var booksWithPrice = new List<object>();
-            var price = _priceReadRepository.GetAll();
-            
+
+
+
             foreach (var book in books)
             {
-                
 
+                var prices = _priceReadRepository.GetAll().Where(p => p.bookid == book.id).Select(p => p.price).ToList();
                 var bookWithPrice = new
                 {
                     book.id,
@@ -57,14 +60,16 @@ namespace BookStore.Controllers
                     book.category,
                     book.published,
                     book.author,
-                   
 
 
-                    Price = price 
+                    prices
+
+
                 };
                 booksWithPrice.Add(bookWithPrice);
-             
+
             }
+
             return Ok(booksWithPrice);
         }
         [HttpGet("{id}")]
