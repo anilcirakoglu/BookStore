@@ -13,6 +13,6 @@ namespace BookStore.Application.Repositories
         IQueryable<T> GetAll();
         IQueryable<T> GetWhere(Expression<Func<T,bool>> method);//Verilen şart ifadesi doğru olanları sorgulanıp getirileceği.
         Task<T> GetSingleAsync(Expression<Func<T,bool>> method);//şarta uygun olan ilkini getirir
-        Task<T> GetByIdAsync(int id);// id int olması gerekmez mi?
+        Task<T> GetByIdAsync(int id);
     }
 }

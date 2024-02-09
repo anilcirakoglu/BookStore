@@ -20,10 +20,11 @@ namespace BookStore.Controllers
             _bookReadRepository = bookReadRepository;
         }
         [HttpGet]
-        public void Get() {
-
-            _bookReadRepository.GetAll();
-          }
+        public IActionResult GetAll()
+        {
+            var books = _bookReadRepository.GetAll();
+            return Ok(books);
+        }
 
     }
 }
