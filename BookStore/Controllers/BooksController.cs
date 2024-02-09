@@ -34,13 +34,7 @@ namespace BookStore.Controllers
         
 
         [HttpGet]
-        //public IActionResult GetAll()
-        //{
-        //    //var book = _bookReadRepository.GetAll();
-        //    //return Ok(book);
-
-
-        //}
+      
         public  IActionResult GetAll()
         {
             var books = _bookReadRepository.GetAll().ToList();
