@@ -29,6 +29,8 @@ namespace BookStore.Persistence.Repositories
               query=  query.AsNoTracking();
             return query;
         }
+       
+
 
         public async Task<T> GetByIdAsync(int id, bool tracking = true)
         { 

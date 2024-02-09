@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace BookStore.Application.Repositories
 {
-    public interface IBookReadRepository:IReadRepository<Book>
+    public interface IBookReadRepository : IReadRepository<Book>
     {
+      
     }
 }

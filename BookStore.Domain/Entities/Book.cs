@@ -16,6 +16,8 @@ namespace BookStore.Domain.Entities
         public bool published { get; set; }
         public string author { get; set; }
 
+       
+
 
     }
 }

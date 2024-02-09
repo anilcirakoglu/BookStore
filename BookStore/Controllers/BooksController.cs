@@ -1,6 +1,8 @@
 ﻿using BookStore.Application.Repositories;
 using BookStore.Domain.Entities;
 using BookStore.Persistence.Context;
+using BookStore.Persistence.EntityConfigurations;
+using BookStore.Persistence.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,13 +18,18 @@ namespace BookStore.Controllers
 
         readonly private IBookWriteRepository _bookWriteRepository;
         readonly private IBookReadRepository _bookReadRepository;
-        
+     
+
         public BooksController(IBookReadRepository bookReadRepository,IBookWriteRepository bookWriteRepository)
         {
             
             _bookReadRepository = bookReadRepository;
             _bookWriteRepository = bookWriteRepository;
+            
         }
+
+        
+
         [HttpGet]
         public IActionResult GetAll()
         {

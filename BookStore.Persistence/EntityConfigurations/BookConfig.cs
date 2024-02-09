@@ -27,6 +27,10 @@ namespace BookStore.Persistence.EntityConfigurations
 
             builder.Property(f=>f.author).IsRequired().HasMaxLength(256);
 
+         
+
+            
+
 
         }
     }
