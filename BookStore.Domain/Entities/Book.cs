@@ -14,6 +14,7 @@ namespace BookStore.Domain.Entities
         public string isbn { get; set; }
         public string category { get; set; }
         public bool published { get; set; }
+        public string author { get; set; }
 
 
     }
