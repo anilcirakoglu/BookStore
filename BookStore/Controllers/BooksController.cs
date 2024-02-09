@@ -13,7 +13,7 @@ namespace BookStore.Controllers
         
 
         readonly private IBookReadRepository _bookReadRepository;
-
+        
         public BooksController(IBookReadRepository bookReadRepository)
         {
             
@@ -22,8 +22,8 @@ namespace BookStore.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var books = _bookReadRepository.GetAll();
-            return Ok(books);
+            var book = _bookReadRepository.GetAll();
+            return Ok(book);
         }
 
     }

@@ -14,14 +14,15 @@ namespace BookStore.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<Book> builder)
         {
             builder.ToTable("Books");
+
             
-            builder.Property(f => f.Name).IsRequired().HasMaxLength(256);
+            builder.Property(f => f.name).IsRequired().HasMaxLength(256);
 
             builder.Property(f => f.isbn).IsRequired().HasMaxLength(128);
 
             builder.Property(f => f.category).IsRequired().HasMaxLength(256);
 
-            builder.Property(f => f.Published).IsRequired();
+            builder.Property(f => f.published).IsRequired();
 
 
         }

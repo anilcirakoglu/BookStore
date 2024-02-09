@@ -1,5 +1,7 @@
 ﻿using BookStore.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +12,7 @@ namespace BookStore.Persistence.Context
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<Book> Books { get; set; }
-        public DbSet<Users> Users { get; set; }
-        public DbSet<Prices> Prices { get; set; }
+      
         //Users
         //ShoppingCartItems
 
@@ -21,6 +21,9 @@ namespace BookStore.Persistence.Context
         {
             
         }
+        public DbSet<Book> Book { get; set; }
+        public DbSet<Users> Users { get; set; }
+        public DbSet<Prices> Prices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,5 +31,6 @@ namespace BookStore.Persistence.Context
 
             base.OnModelCreating(modelBuilder);
         }
+       
     }
 }

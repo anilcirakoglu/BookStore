@@ -10,10 +10,10 @@ namespace BookStore.Domain.Entities
     public class Book :BaseEntity
     {
         //  public int Id { get; set; }
-        public string Name { get; set; }
+        public string name { get; set; }
         public string isbn { get; set; }
         public string category { get; set; }
-        public bool Published { get; set; }
+        public bool published { get; set; }
 
 
     }
