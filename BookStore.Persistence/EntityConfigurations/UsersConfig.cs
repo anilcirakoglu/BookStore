@@ -13,10 +13,10 @@ namespace BookStore.Persistence.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Users> builder)
         {
-            builder.ToTable("USERS");
-            builder.Property(f => f.Name).IsRequired().HasMaxLength(128);
+            builder.ToTable("Users");
+            builder.Property(f => f.name).IsRequired().HasMaxLength(128);
             builder.Property(f => f.surname).IsRequired().HasMaxLength(128);
-            builder.Property(f => f.phoneNumber).IsRequired().HasMaxLength(256);
+            builder.Property(f => f.phonenumber).IsRequired().HasMaxLength(256);
             builder.Property(f => f.email).IsRequired().HasMaxLength(256);
         }
     }

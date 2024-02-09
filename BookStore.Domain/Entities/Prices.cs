@@ -10,7 +10,7 @@ namespace BookStore.Domain.Entities
     public class Prices : BaseEntity
     {
         ///   public int Id { get; set; }
-        public int bookId { get; set; }
+        public int bookid { get; set; }
         public decimal price { get; set; }
 
     }

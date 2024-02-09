@@ -10,9 +10,9 @@ namespace BookStore.Domain.Entities
     public class Users : BaseEntity
     {
         //    public int Id { get; set; }
-        public string Name { get; set; }
+        public string name { get; set; }
         public string surname { get; set; }
-        public string phoneNumber { get; set; }
+        public double phonenumber { get; set; }
         public string email { get; set; }
 
     }
