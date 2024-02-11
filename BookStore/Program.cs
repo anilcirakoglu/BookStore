@@ -1,4 +1,5 @@
 using BookStore.Application.Repositories;
+using BookStore.Persistence;
 using BookStore.Persistence.Context;
 using BookStore.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -13,16 +14,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddPersistanceServices();
+
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL")));
 
-builder.Services.AddScoped<IBookReadRepository, BookReadRepository>();
-builder.Services.AddScoped<IBookWriteRepository, BookWriteRepository>();
-
-builder.Services.AddScoped<IPricesReadRepository, PricesReadRepository>();
-builder.Services.AddScoped<IPricesWriteRepository, PricesWriteRepository>();
-
-builder.Services.AddScoped<IUsersReadRepository, UsersReadRepository>();
-builder.Services.AddScoped<IUsersWriteRepository, UsersWriteRepository>();
 
 
 var app = builder.Build();

@@ -15,8 +15,8 @@ namespace BookStore.Persistence
     public static class ServicesRegistration
     {
         public static void AddPersistanceServices(this IServiceCollection services) {
+           
 
-         
             services.AddScoped<IBookReadRepository, BookReadRepository>();
             services.AddScoped<IBookWriteRepository, BookWriteRepository>();
 

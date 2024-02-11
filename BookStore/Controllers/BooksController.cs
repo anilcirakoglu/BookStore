@@ -1,5 +1,6 @@
 ﻿using BookStore.Application.Repositories;
 using BookStore.Domain.Entities;
+
 using BookStore.Persistence.Context;
 using BookStore.Persistence.EntityConfigurations;
 using BookStore.Persistence.Repositories;
@@ -19,7 +20,8 @@ namespace BookStore.Controllers
         readonly private IBookWriteRepository _bookWriteRepository;
         readonly private IBookReadRepository _bookReadRepository;
         readonly private IPricesReadRepository _priceReadRepository;
-       
+         
+
 
         public BooksController(IBookReadRepository bookReadRepository,IBookWriteRepository bookWriteRepository,IPricesReadRepository pricesReadRepository)
         {
@@ -27,8 +29,9 @@ namespace BookStore.Controllers
             _bookReadRepository = bookReadRepository;
             _bookWriteRepository = bookWriteRepository;
             _priceReadRepository = pricesReadRepository;
-          
-            
+         
+
+
         }
 
         
@@ -66,6 +69,8 @@ namespace BookStore.Controllers
 
             return Ok(booksWithPrice);
         }
+      
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSingle(int id)
         {

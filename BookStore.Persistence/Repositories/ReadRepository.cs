@@ -29,7 +29,26 @@ namespace BookStore.Persistence.Repositories
               query=  query.AsNoTracking();
             return query;
         }
-       
+        //public IQueryable<T> Get(Expression<Func<T, bool>> method, bool tracking = true,params Expression<Func<T,object>>[] includes) {
+        // var query = Table.AsQueryable();
+        //    if (method != null) 
+        //        query = query.Where(method);
+        //    query= ApplyIncludes(query, includes);
+        //    if(tracking)
+        //        query= query.AsNoTracking();
+        //    return query;
+        //}
+        public static IQueryable<T> ApplyIncludes(IQueryable<T> query, params Expression<Func<T, object>>[] includes)
+            {
+            if (includes != null)
+            {
+                foreach (var includeItem in includes)
+                {
+                    query = query.Include(includeItem);
+                }
+            }
+            return query;
+        }
 
 
         public async Task<T> GetByIdAsync(int id, bool tracking = true)

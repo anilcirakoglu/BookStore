@@ -16,7 +16,7 @@ namespace BookStore.Persistence.Repositories
         public BookReadRepository(AppDbContext context) : base(context)
         {
         }
+     
 
-       
     }
 }

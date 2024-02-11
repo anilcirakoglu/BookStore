@@ -9,6 +9,5 @@ namespace BookStore.Application.Repositories
 {
     public interface IBookReadRepository : IReadRepository<Book>
     {
-      
     }
 }

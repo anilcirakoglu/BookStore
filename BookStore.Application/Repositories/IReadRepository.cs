@@ -14,5 +14,6 @@ namespace BookStore.Application.Repositories
         IQueryable<T> GetWhere(Expression<Func<T,bool>> method, bool tracking = true);//Verilen şart ifadesi doğru olanları sorgulanıp getirileceği.
         Task<T> GetSingleAsync(Expression<Func<T,bool>> method, bool tracking = true);//şarta uygun olan ilkini getirir
         Task<T> GetByIdAsync(int id, bool tracking = true);
+        //IQueryable<T> Get(Expression<Func<T, bool>> method, params Expression<Func<T, object>>[] includes);
     }
 }
