@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Domain.Models
 {
-    public class Book
+    public class BookModel
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -14,5 +14,6 @@ namespace BookStore.Domain.Models
         public string category { get; set; }
         public bool published { get; set; }
         public string author { get; set; }
-    }
+        public decimal price { get; set; }
+    } 
 }

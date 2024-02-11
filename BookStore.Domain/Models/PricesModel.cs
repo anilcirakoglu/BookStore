@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Domain.Models
 {
-    public class Prices
+    public class PricesModel
     {
         public int id{ get; set; }
         public int bookid { get; set; }

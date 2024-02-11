@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Domain.Models
 {
-    public class Users
+    public class UsersModel
     {
         public int id { get; set; }
         public string name { get; set; }
