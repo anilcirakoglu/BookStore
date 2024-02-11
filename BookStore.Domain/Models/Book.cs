@@ -8,7 +8,7 @@ namespace BookStore.Domain.Models
 {
     public class Book
     {
-        public int Id { get; set; }
+        public int id { get; set; }
         public string name { get; set; }
         public string isbn { get; set; }
         public string category { get; set; }
