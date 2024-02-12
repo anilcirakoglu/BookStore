@@ -13,6 +13,7 @@ namespace BookStore.Domain.Entities
         ///   public int Id { get; set; }
         public int bookid { get; set; }
         public decimal price { get; set; }
+        public DateTime update_Date { get; set; }
 
        
     }

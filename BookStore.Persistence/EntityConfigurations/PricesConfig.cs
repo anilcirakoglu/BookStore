@@ -19,6 +19,7 @@ namespace BookStore.Persistence.EntityConfigurations
             builder.ToTable("Prices");
             builder.Property(f => f.bookid).IsRequired().HasMaxLength(256);
             builder.Property(f => f.price).IsRequired().HasMaxLength(256);
+            builder.Property(f=>f.update_Date).IsRequired().HasMaxLength(256);
         }
     }
 }
