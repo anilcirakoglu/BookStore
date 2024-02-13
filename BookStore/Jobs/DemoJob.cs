@@ -41,10 +41,10 @@ namespace BookStore.Jobs
                     price.price = price.oldprice;
                 }
                 else {
-                    Random rnd = new Random();
-                    int discountPercent = rnd.Next(10, 51);
+                    //Random rnd = new Random();
+                    //int discountPercent = rnd.Next(10, 51);
 
-                    decimal discountAmount = price.price * (decimal)(discountPercent / 100.0);
+                    decimal discountAmount = price.price * (decimal)(price.discount / 100.0);
                     price.price -= discountAmount;
                 }
 
