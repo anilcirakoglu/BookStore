@@ -37,7 +37,30 @@ namespace BookStore.Controllers
 
 
         }
+        //private List<BookModel> getAll()
+        //{
+        //    var books = _bookReadRepository.GetAll().ToList();
+        //    var booksWithPrice = new List<BookModel>();
+        //    var priceList = _priceReadRepository.GetAll().ToList();
+        //    foreach (var book in books)
+        //    {
+        //        var bookWithPrice = new BookModel
+        //        {
+        //            id = book.id,
+        //            name = book.name,
+        //            isbn = book.isbn,
+        //            category = book.category,
+        //            published = book.published,
+        //            author = book.author,
+        //            price = priceList.FirstOrDefault(x => x.bookid == book.id).price
 
+
+
+        //        };
+        //        booksWithPrice.Add(bookWithPrice);
+        //    }
+        //    return booksWithPrice;
+        //}
 
         [HttpGet]
         public IActionResult GetAll() {
@@ -62,6 +85,7 @@ namespace BookStore.Controllers
                 booksWithPrice.Add(bookWithPrice);
             }
             return Ok(booksWithPrice);
+            
         }
 
 
