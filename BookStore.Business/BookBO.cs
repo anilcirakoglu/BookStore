@@ -60,10 +60,10 @@ namespace BookStore.Business
             await _bookWriteRepository.SaveAsync();
             await _priceWriteRepository.SaveAsync();
             return bookModel;
-        
-    }
 
-    #region methods
+        }
+
+        #region methods
         public List<BookModel> GetAll()
         {
             var books = _bookReadRepository.GetAll().ToList();
@@ -94,7 +94,7 @@ namespace BookStore.Business
         {
             var book = await _bookReadRepository.GetByIdAsync(id);
             var priceList = _priceReadRepository.GetAll().Where(x => x.bookid == book.id);
-           
+
             var bookWithPrice = new BookModel
             {
                 id = book.id,
@@ -109,26 +109,79 @@ namespace BookStore.Business
 
 
             };
-           
+
             return bookWithPrice;
+        }
+
+        public async Task RemoveAsync(int id)
+        {
+
+            var book = await _bookReadRepository.GetByIdAsync(id);
+            var bookWithPrice = new BookModel
+            {
+                id = book.id,
+                name = book.name,
+                isbn = book.isbn,
+                category = book.category,
+                published = book.published,
+                author = book.author,
+                
+            }; 
+            await _bookWriteRepository.RemoveAsync(id);
+            await _bookWriteRepository.SaveAsync();
+            
+
+
+        }
+
+        public async Task<int> SaveAsync()
+        {
+            var price = await _bookWriteRepository.SaveAsync();
+            return price;
         }
 
 
 
+        public async Task UpdateAsync(BookModel bookModel)
+        {
+
+            var books = _bookReadRepository.GetAll().FirstOrDefault(x => x.id == bookModel.id);
+            var prices = _priceReadRepository.GetAll().Where(price => price.bookid == books.id).FirstOrDefault();
+
+            //var prices = _priceReadRepository.GetAll().Where(price => books.Select(book => book.id).Contains(price.bookid)).ToList().where performasn problemi yaratacağı için kullanılmaması gerekir.
 
 
 
 
-        #endregion
+            books.name = bookModel.name;
+            books.isbn = bookModel.isbn;
+            books.category = bookModel.category;
+            books.author = bookModel.author;
+            books.published = bookModel.published;
+            prices.oldprice = bookModel.price;
 
 
+
+
+
+            _bookWriteRepository.Update(books);
+            await _bookWriteRepository.SaveAsync();
+        }
         private string AddTLIcon(string prices)
         {
 
             return prices + " ₺";
 
         }
+
+        
     }
+    #endregion
+
+    
 
 
 }
+
+
+

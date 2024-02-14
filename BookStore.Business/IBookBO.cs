@@ -13,10 +13,12 @@ namespace BookStore.Business
         List<BookModel> GetAll();
         Task<BookModel> GetById(int id, bool tracking = true);
         Task<BookModel> create(BookModel bookModel);
-        
-        
-        
-        
+
+        Task UpdateAsync(BookModel BookModel);
+        Task<int> SaveAsync();
+        Task RemoveAsync(int id);
+
+
         //void Update(int id);
     }
 }

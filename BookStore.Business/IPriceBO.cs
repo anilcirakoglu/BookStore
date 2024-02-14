@@ -14,8 +14,14 @@ namespace BookStore.Business
         Task<PricesModel> GetById(int id, bool tracking = true);
         Task<PricesModel> create(PricesModel bookModel);
 
+
+
+
         Task UpdateAsync(PricesModel priceModel);
         Task<int> SaveAsync();
+
+
+        Task RemoveAsync(int id);
 
     }
 }

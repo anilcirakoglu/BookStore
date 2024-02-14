@@ -15,7 +15,7 @@ namespace BookStore.Application.Repositories
         bool Remove(T model);
         bool RemoveRange(List<T> model);
         Task< bool> RemoveAsync(int id);
-         bool Update(T model);
+        bool Update(T model);
 
         Task<int> SaveAsync();
         /*bool eklendiyse t/f döndürmek için*/

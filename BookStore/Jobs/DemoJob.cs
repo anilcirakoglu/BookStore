@@ -55,11 +55,7 @@ namespace BookStore.Jobs
 
                await  _priceBO.UpdateAsync(price);
             }
-
-
-          
-
-            
+    
         }
     }      
 }

@@ -1,5 +1,6 @@
 ﻿
 using BookStore.Business;
+using BookStore.Business.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,6 +32,22 @@ namespace BookStore.Controllers
             return Ok(price);
 
         }
-        //[HttpDelete("delete")]
-    }
+        [HttpDelete("delete")]
+
+        public async Task<IActionResult> deleteById(int id)
+        {
+            await _priceBO.RemoveAsync(id);
+            return Ok(id);
+        }
+       
+       
+            [HttpPut]
+
+        public IActionResult update(PricesModel priceModel)
+        {
+            _priceBO.UpdateAsync(priceModel);
+            return Ok(priceModel);
+
+        }
+    }  
 }

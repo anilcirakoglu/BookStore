@@ -117,7 +117,20 @@ namespace BookStore.Controllers
             var books =await _bookBO.create(book);
             return Ok(books);
         }
-        //[HttpDelete("delete")]
+        [HttpDelete("delete")]
+        public async Task<IActionResult> deleteById(int id) {
+            await _bookBO.RemoveAsync(id);
+            return Ok(id);
+        }
+
+
+
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateAsync(BookModel bookModel)
+        {
+            await _bookBO.UpdateAsync(bookModel);
+            return Ok(bookModel);
+        }
 
 
     }

@@ -35,7 +35,21 @@ namespace BookStore.Controllers
             return Ok(userCreate);
 
         }
-        //[HttpDelete("delete")]
+        [HttpDelete("delete")]
+        public async Task<IActionResult> deleteById(int id)
+        {
+            await _userBO.RemoveAsync(id);
+            return Ok(id);
+        }
+        [HttpPut]
+        public async Task<IActionResult> Update(UsersModel usersModel)
+        {
+
+
+            await _userBO.UpdateAsync(usersModel);
+            return Ok(usersModel);
+
+        }
 
     }
 }

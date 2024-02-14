@@ -86,6 +86,52 @@ namespace BookStore.Business
             return User;
         }
 
+        public async Task RemoveAsync(int id)
+        {
+            var users = await _usersReadRepository.GetByIdAsync(id);
+
+
+            var User = new UsersModel
+            {
+                id = users.id,
+                name=users.name, 
+                surname = users.surname,
+                phonenumber=users.phonenumber,
+                email = users.email
+                
+              
+
+            };
+            await _usersWriteRepository.RemoveAsync(id);
+            await _usersWriteRepository.SaveAsync();
+        }
+
+        public async Task<int> SaveAsync()
+        {
+            var user = await _usersWriteRepository.SaveAsync();
+            return user;
+        }
+
+        public async Task UpdateAsync(UsersModel userModel)
+        {
+            var users = _usersReadRepository.GetAll().Where(x=>x.id == userModel.id).FirstOrDefault();
+
+
+                
+                users.name = userModel.name;
+                users.surname = userModel.surname;
+                users.phonenumber = userModel.phonenumber;
+                users.email = userModel.email;
+
+               
+               _usersWriteRepository.Update(users);
+                await _usersWriteRepository.SaveAsync();
+            
+           
+           
+        }
+
+        
     }
 
 }

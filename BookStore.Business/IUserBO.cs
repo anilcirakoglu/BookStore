@@ -11,6 +11,10 @@ namespace BookStore.Business
     {
         List<UsersModel> GetAll();
         Task<UsersModel> GetById(int id, bool tracking = true);
-        Task<UsersModel> create(UsersModel bookModel);
+        Task<UsersModel> create(UsersModel userModel);
+        Task UpdateAsync(UsersModel userModel);
+        Task<int> SaveAsync();
+
+        Task RemoveAsync(int id);
     }
 }

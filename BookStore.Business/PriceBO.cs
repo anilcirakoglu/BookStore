@@ -32,10 +32,11 @@ namespace BookStore.Business
 
         }
 
-        public Task<PricesModel> create(PricesModel priceModel)
+        public Task<PricesModel> create(PricesModel bookModel)
         {
             throw new NotImplementedException();
         }
+
 
         public List<PricesModel> GetAll()
         {
@@ -85,6 +86,28 @@ namespace BookStore.Business
             return Price;
         }
 
+        public async Task RemoveAsync(int id)
+        {
+            var price = await _priceReadRepository.GetByIdAsync(id);
+
+
+            var Price = new PricesModel
+            {
+                id = price.id,
+                bookid = price.bookid,
+                price = price.price,
+                isdiscount = price.isdiscount,
+                update_Date = price.update_Date,
+                oldprice = price.oldprice,
+                discountPercent = price.discountPercent
+
+
+
+            };
+            await _priceWriteRepository.RemoveAsync(id);
+            await _priceWriteRepository.SaveAsync();
+        }
+
         public async Task<int> SaveAsync()
         {
             var price = await _priceWriteRepository.SaveAsync();
@@ -113,5 +136,7 @@ namespace BookStore.Business
         
         
         }
+
+       
     }
 }
