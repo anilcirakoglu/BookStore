@@ -50,6 +50,7 @@ namespace BookStore.Business
                 id = bookModel.id,
                 bookid = entity.id,
                 price = bookModel.price,
+                oldprice = bookModel.price
             };
 
 
