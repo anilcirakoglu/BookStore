@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Domain.Entities
 {
+    
     public class Book :BaseEntity
     {
         //  public int Id { get; set; }

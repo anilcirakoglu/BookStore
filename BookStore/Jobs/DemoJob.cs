@@ -1,5 +1,5 @@
 ﻿using BookStore.Application.Repositories;
-using BookStore.Domain.Models;
+using BookStore.Business;
 using Npgsql;
 using Quartz;
 using System.Xml;
@@ -7,53 +7,57 @@ namespace BookStore.Jobs
 {
     public class DemoJob : IJob
     {
-        readonly private IBookWriteRepository _bookWriteRepository;
-        readonly private IBookReadRepository _bookReadRepository;
-        readonly private IPricesReadRepository _priceReadRepository;
-        readonly private IPricesWriteRepository _priceWriteRepository;
-        public DemoJob(IBookReadRepository bookReadRepository, IBookWriteRepository bookWriteRepository, IPricesReadRepository pricesReadRepository, IPricesWriteRepository pricesWriteRepository)
+       
+
+        readonly private IBookBO _bookBO;
+        readonly private IPriceBO _priceBO;
+        readonly private IUserBO _userBO;
+        public DemoJob(IBookBO bookBO,IPriceBO priceBO,IUserBO userBO)
         {
 
-            _bookReadRepository = bookReadRepository;
-            _bookWriteRepository = bookWriteRepository;
-            _priceReadRepository = pricesReadRepository;
-            _priceWriteRepository = pricesWriteRepository;
-
-
+            _bookBO = bookBO;
+            _priceBO = priceBO;
+            _userBO = userBO;
 
 
         }
         public async Task Execute(IJobExecutionContext context)
         {
             
-            var books = _bookReadRepository.GetAll().Where(x=>x.published).ToList();
-            var prices = _priceReadRepository.GetAll().Where(price => books.Select(book => book.id).Contains(price.bookid)).ToList();
-            //var prices = _priceReadRepository.GetAll().Where(price => books.Select(book => book.id).Contains(price.bookid)).ToList().where performasn problemi yaratacağı için kullanılmaması gerekir.
-           
+            var books = _bookBO.GetAll().Where(x=>x.published).ToList();
+            var prices = _priceBO.GetAll().Where(price => books.Select(book => book.id).Contains(price.bookid)).ToList();
 
+            //var prices = _priceReadRepository.GetAll().Where(price => books.Select(book => book.id).Contains(price.bookid)).ToList().where performasn problemi yaratacağı için kullanılmaması gerekir.
+
+            
 
             foreach (var price in prices)
             {
-               
-                 price.update_Date = DateTime.Now;
+                //decimal temp = price.oldprice;
+
+                price.update_Date = DateTime.Now;
+                
                 if (price.isdiscount )
                 {
-                    price.price = price.oldprice;
+                    
+                    price.price=price.oldprice;
+                    //price.oldprice = temp;
                 }
                 else {
-                    //Random rnd = new Random();
-                    //int discountPercent = rnd.Next(10, 51);
 
-                    decimal discountAmount = price.price * (decimal)(price.discount / 100.0);
+                    
+                    decimal discountAmount = price.price * (decimal)(price.discountPercent / 100.0);
                     price.price -= discountAmount;
+                   
                 }
 
                 price.isdiscount = !price.isdiscount;// tersine çevirmek için 
-                 _priceWriteRepository.UpdateAsync(price);
+
+               await  _priceBO.UpdateAsync(price);
             }
 
-            
-            await _priceWriteRepository.SaveAsync();
+
+          
 
             
         }

@@ -1,13 +1,14 @@
-using BookStore.Application.Repositories;
-using BookStore.Persistence;
+
+
 using BookStore.Persistence.Context;
-using BookStore.Persistence.Repositories;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 using Quartz.Impl;
 using Quartz;
 using BookStore.Jobs;
+using BookStore.Business;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,11 @@ builder.Services.AddQuartz(q =>
 });
 
 builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+
+
+
+
+
 
 var app = builder.Build();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);

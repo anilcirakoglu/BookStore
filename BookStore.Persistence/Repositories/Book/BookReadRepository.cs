@@ -12,11 +12,10 @@ namespace BookStore.Persistence.Repositories
 {
     public class BookReadRepository : ReadRepository<Book>, IBookReadRepository
     {
-      
         public BookReadRepository(AppDbContext context) : base(context)
         {
         }
-     
 
+       
     }
 }

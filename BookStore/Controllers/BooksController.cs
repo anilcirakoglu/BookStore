@@ -1,12 +1,9 @@
-﻿using BookStore.Application.Repositories;
-using BookStore.Domain.Entities;
-using BookStore.Domain.Models;
-using BookStore.Persistence.Context;
-using BookStore.Persistence.EntityConfigurations;
-using BookStore.Persistence.Repositories;
+﻿
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using BookStore.Business;
+using BookStore.Business.Models;
 
 
 
@@ -17,133 +14,111 @@ namespace BookStore.Controllers
     public class BooksController : ControllerBase
     {
 
-        readonly private IBookWriteRepository _bookWriteRepository;
-        readonly private IBookReadRepository _bookReadRepository;
-        readonly private IPricesReadRepository _priceReadRepository;
-        readonly private IPricesWriteRepository _priceWriteRepository;
+      
+        readonly private IBookBO _bookBO;
        
          
 
 
-        public BooksController(IBookReadRepository bookReadRepository,IBookWriteRepository bookWriteRepository,IPricesReadRepository pricesReadRepository,IPricesWriteRepository pricesWriteRepository)
+        public BooksController(IBookBO bookBO)
         {
-            
-            _bookReadRepository = bookReadRepository;
-            _bookWriteRepository = bookWriteRepository;
-            _priceReadRepository = pricesReadRepository;
-            _priceWriteRepository = pricesWriteRepository;
-            
-         
-
-
+        
+            _bookBO = bookBO;
+           
         }
-        //private List<BookModel> getAll()
-        //{
-        //    var books = _bookReadRepository.GetAll().ToList();
-        //    var booksWithPrice = new List<BookModel>();
-        //    var priceList = _priceReadRepository.GetAll().ToList();
-        //    foreach (var book in books)
-        //    {
-        //        var bookWithPrice = new BookModel
-        //        {
-        //            id = book.id,
-        //            name = book.name,
-        //            isbn = book.isbn,
-        //            category = book.category,
-        //            published = book.published,
-        //            author = book.author,
-        //            price = priceList.FirstOrDefault(x => x.bookid == book.id).price
-
-
-
-        //        };
-        //        booksWithPrice.Add(bookWithPrice);
-        //    }
-        //    return booksWithPrice;
-        //}
+        
 
         [HttpGet]
         public IActionResult GetAll() {
-            var books = _bookReadRepository.GetAll().ToList();
-            var booksWithPrice = new List<BookModel>();
-            var priceList = _priceReadRepository.GetAll().ToList();
-            foreach (var book in books)
-            {
-                var bookWithPrice = new BookModel
-                {
-                    id = book.id,
-                    name = book.name,
-                    isbn = book.isbn,
-                    category = book.category,
-                    published = book.published,
-                    author = book.author,
-                    price = priceList.FirstOrDefault(x => x.bookid == book.id).price
+            //var books = _bookReadRepository.GetAll().ToList();
+            //var booksWithPrice = new List<BookModel>();
+            //var priceList = _priceReadRepository.GetAll().ToList();
+            //foreach (var book in books)
+            //{
+            //    var bookWithPrice = new BookModel
+            //    {
+            //        id = book.id,
+            //        name = book.name,
+            //        isbn = book.isbn,
+            //        category = book.category,
+            //        published = book.published,
+            //        author = book.author,
+            //        price = priceList.FirstOrDefault(x => x.bookid == book.id).price
 
 
 
-                };
-                booksWithPrice.Add(bookWithPrice);
-            }
-            return Ok(booksWithPrice);
+            //    };
+            //    booksWithPrice.Add(bookWithPrice);
+            //}
+            
+            var books = _bookBO.GetAll();
+            return Ok(books);
             
         }
 
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetSingle(int id)
+        public async Task<IActionResult> GetById(int id)
         {
 
-            var book= await _bookReadRepository.GetByIdAsync(id);
-            var priceList = _priceReadRepository.GetAll().Where(x=>x.bookid==book.id);
-            var booksWithPrice = new List<BookModel>();
-            var bookWithPrice = new BookModel
-            {
-                id = book.id,
-                name = book.name,
-                isbn = book.isbn,
-                category = book.category,
-                published = book.published,
-                author = book.author,
-                price = priceList.FirstOrDefault(x => x.bookid == book.id).price
+            //var book= await _bookReadRepository.GetByIdAsync(id);
+            //var priceList = _priceReadRepository.GetAll().Where(x=>x.bookid==book.id);
+            //var booksWithPrice = new List<BookModel>();
+            //var bookWithPrice = new BookModel
+            //{
+            //    id = book.id,
+            //    name = book.name,
+            //    isbn = book.isbn,
+            //    category = book.category,
+            //    published = book.published,
+            //    author = book.author,
+            //    price = priceList.FirstOrDefault(x => x.bookid == book.id).price
 
 
 
-            };
-            booksWithPrice.Add(bookWithPrice);
-            return Ok(bookWithPrice);
+            //};
+            //booksWithPrice.Add(bookWithPrice);
+            //return Ok(bookWithPrice);
+            var books =await _bookBO.GetById(id);
+            return Ok(books);
+
         }
         [HttpPost("create")]
-        public async Task<ActionResult<Book>> Create(BookModel book)
+        public async Task<ActionResult<BookModel>> Create(BookModel book)
         {
 
-            var entity = new Book()
-            {
-                id = book.id,
-                name = book.name,
-                isbn = book.isbn,
-                category = book.category,
-                published = book.published,
-                author = book.author
-            };
+            //var entity = new Book()
+            //{
+            //    id = book.id,
+            //    name = book.name,
+            //    isbn = book.isbn,
+            //    category = book.category,
+            //    published = book.published,
+            //    author = book.author
+            //};
 
-            var entity2 = new Prices()
-            {
-                id=book.id,
-                bookid = entity.id,
-                price = book.price,
-            };
+            //var entity2 = new Prices()
+            //{
+            //    id=book.id,
+            //    bookid = entity.id,
+            //    price = book.price,
+            //};
 
 
 
-            await _bookWriteRepository.AddAsync(entity);
-            await _priceWriteRepository.AddAsync(entity2);
+            //await _bookWriteRepository.AddAsync(entity);
+            //await _priceWriteRepository.AddAsync(entity2);
             
-           await _bookWriteRepository.SaveAsync();
-            await _priceWriteRepository.SaveAsync();
+            //await _bookWriteRepository.SaveAsync();
+            //await _priceWriteRepository.SaveAsync();
 
-            return CreatedAtRoute( new { id = book.id }, book);
+            //return CreatedAtRoute( new { id = book.id }, book);
+
+            var books =await _bookBO.create(book);
+            return Ok(books);
         }
-        
-      
+        //[HttpDelete("delete")]
+
+
     }
 }

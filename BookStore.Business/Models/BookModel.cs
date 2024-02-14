@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore.Domain.Models
+namespace BookStore.Business.Models
 {
     public class BookModel
     {
@@ -15,5 +15,6 @@ namespace BookStore.Domain.Models
         public bool published { get; set; }
         public string author { get; set; }
         public decimal price { get; set; }
+        public string priceTL { get; set; }
     } 
 }

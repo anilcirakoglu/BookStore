@@ -1,7 +1,5 @@
-﻿using BookStore.Application.Repositories;
-using BookStore.Domain.Entities;
-using BookStore.Domain.Models;
-using BookStore.Persistence.Repositories;
+﻿using BookStore.Business;
+using BookStore.Business.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,39 +9,33 @@ namespace BookStore.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        readonly private IUsersReadRepository _usersReadRepository;
-        readonly private IUsersWriteRepository _usersWriteRepository;
-        public UsersController(IUsersReadRepository usersReadRepository, IUsersWriteRepository usersWriteRepository)
+       readonly private IUserBO _userBO;
+        public UsersController(IUserBO userBO)
         {
-
-            _usersReadRepository = usersReadRepository;
-            _usersWriteRepository = usersWriteRepository;
+            _userBO = userBO;
         }
         [HttpGet]
         public IActionResult GetAll()
         {
-            var book = _usersReadRepository.GetAll();
+            var book = _userBO.GetAll();
             return Ok(book);
         }
-        [HttpPost("create")]
-        public async Task<ActionResult<Users>> createUser(UsersModel usersModel)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-
-
-            var entity = new Users()
-            {
-
-                id = usersModel.id,
-                name = usersModel.name,
-                surname = usersModel.surname,
-                phonenumber = usersModel.phonenumber,
-                email = usersModel.email
-            };
-            await _usersWriteRepository.AddAsync(entity);
-            await _usersWriteRepository.SaveAsync();
-            return CreatedAtRoute(new { id = usersModel.id }, usersModel);
+            var user = await _userBO.GetById(id);
+            return Ok(user);
 
         }
+        [HttpPost("create")]
+        public async Task<ActionResult<UsersModel>> create(UsersModel usersModel)
+        {
+
+            var userCreate =await _userBO.create(usersModel);
+            return Ok(userCreate);
+
+        }
+        //[HttpDelete("delete")]
 
     }
 }

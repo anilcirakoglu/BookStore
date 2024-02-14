@@ -1,4 +1,5 @@
-﻿using BookStore.Application.Repositories;
+﻿
+using BookStore.Business;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,18 +10,27 @@ namespace BookStore.Controllers
     public class PricesController : ControllerBase
     {
 
-        readonly private IPricesReadRepository _pricesReadRepository;
 
-        public PricesController(IPricesReadRepository pricesReadRepository)
+        readonly private IPriceBO _priceBO;
+
+        public PricesController(IPriceBO priceBO)
         {
+            _priceBO = priceBO;
 
-            _pricesReadRepository = pricesReadRepository;
         }
         [HttpGet]
         public IActionResult GetAll()
         {
-            var book = _pricesReadRepository.GetAll();
-            return Ok(book);
+            var price = _priceBO.GetAll();
+            return Ok(price);
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var price = await _priceBO.GetById(id);
+            return Ok(price);
+
+        }
+        //[HttpDelete("delete")]
     }
 }

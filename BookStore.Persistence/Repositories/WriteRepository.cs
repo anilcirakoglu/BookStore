@@ -52,7 +52,7 @@ namespace BookStore.Persistence.Repositories
             return true;
         }
 
-        public bool UpdateAsync(T model)
+        public bool Update(T model)
         {
            EntityEntry entityEntry= Table.Update(model);
             return entityEntry.State == EntityState.Modified;
