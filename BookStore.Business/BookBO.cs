@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using BookStore.Application.Repositories;
 using BookStore.Business.Models;
 using BookStore.Domain.Entities;
@@ -60,6 +63,11 @@ namespace BookStore.Business
 
             await _bookWriteRepository.SaveAsync();
             await _priceWriteRepository.SaveAsync();
+            //var a = _bookReadRepository.GetAll().Where(x => x.isbn == bookModel.isbn).FirstOrDefault();
+            //bookModel.id = a.id;
+            //var a = _auread.getwithunique( getall.where yap içinde)
+            // return etmeden önce auModel.id değerini a.id den alıp set et ve auModeli return et
+
             return bookModel;
 
         }
@@ -90,7 +98,6 @@ namespace BookStore.Business
             }
             return booksWithPrice;
         }//ctrl k+d düzeltme
-
         public async Task<BookModel> GetById(int id, bool tracking = true)
         {
             var book = await _bookReadRepository.GetByIdAsync(id);
@@ -114,6 +121,74 @@ namespace BookStore.Business
             return bookWithPrice;
         }
 
+        public List<BookModel> getBooksStartingFromId(int id, int take)
+        {
+            var books = _bookReadRepository.GetAll().Where(x => x.id >= id).OrderBy(x => x.id).Take(take).ToList();
+            var BooksStartingFromId = new List<BookModel>();
+            var priceList = _priceReadRepository.GetAll().Where(b => b.id >= id).ToList();
+            foreach (var book in books)
+            {
+                var bookStartingFromId = new BookModel
+                {
+                    id = book.id,
+                    name = book.name,
+                    isbn = book.isbn,
+                    category = book.category,
+                    published = book.published,
+                    author = book.author,
+                    price = priceList.FirstOrDefault(x => x.bookid == book.id).price,
+                    priceTL = priceList.FirstOrDefault(x => x.bookid == book.id).price.ToString() + "TL"
+
+
+
+                };
+                BooksStartingFromId.Add(bookStartingFromId);
+
+
+            }// (sayfa-1)*pagesize skip değeri --- take> pagesize
+            return BooksStartingFromId;
+        }
+        public List<BookModel> getFindBooksByCategoryAndAuthor(string category, string author)
+        {
+            var books = _bookReadRepository.GetAll().Where(x => x.category == category && x.author == author);
+            var priceList = _priceReadRepository.GetAll().ToList();
+            var booksWithCategoryAndAuthor = new List<BookModel>();
+            foreach (var book in books)
+            {
+                var bookWithCategoryAndAuthor = new BookModel
+                {
+                    id = book.id,
+                    name = book.name,
+                    isbn = book.isbn,
+                    category = book.category,
+                    published = book.published,
+                    author = book.author,
+                    price = priceList.FirstOrDefault(x => x.bookid == book.id).price,
+                    priceTL = priceList.FirstOrDefault(x => x.bookid == book.id).price.ToString() + "TL"
+
+                };
+                booksWithCategoryAndAuthor.Add(bookWithCategoryAndAuthor);
+
+
+            }
+            return booksWithCategoryAndAuthor;
+        }
+
+
+
+        //public List<BookModel> getCountBooksByAuthor()
+        //{
+        //    //select count("name"),author from "Books" group by author
+        // var book =_bookReadRepository.GetAll().;
+        //  var booksWithAuthor = new List<BookModel>();
+
+
+
+
+        //}
+
+
+        #endregion
         public async Task RemoveAsync(int id)
         {
 
@@ -126,11 +201,11 @@ namespace BookStore.Business
                 category = book.category,
                 published = book.published,
                 author = book.author,
-                
-            }; 
+
+            };
             await _bookWriteRepository.RemoveAsync(id);
             await _bookWriteRepository.SaveAsync();
-            
+
 
 
         }
@@ -175,11 +250,79 @@ namespace BookStore.Business
 
         }
 
-        
-    }
-    #endregion
+        public List<BookModel> getCountBooksByAuthor()
+        {
+            throw new NotImplementedException();
+        }
 
-    
+        public List<BookWithPropertiesTestModel> GetBookWithProperties()
+        {
+            //select b.Published, b.name, b.category, b.author , pr.oldprice from "Books" b
+            //inner join "Prices" pr on b.id = pr.bookid
+            var books = _bookReadRepository.GetAll();
+            var prices = _priceReadRepository.GetAll();
+
+            var joinedList = books.Join(prices,
+                            book => book.id,
+                            price => price.bookid,
+                            (book, price) => new BookWithPropertiesTestModel 
+                            {
+                                published = book.published,
+                                name = book.name,
+                                category = book.category,
+                                author = book.author,
+                                price = price.oldprice
+                            }).ToList();
+
+
+            //lambda expression
+            //var joinedList = books.Join(prices,
+            //                book => book.Id,
+            //                price => price.BookId,
+            //                (book, price) => new { Book = book, Price = price });
+
+
+            //linq expression
+            var joinedList2 = (from book in books
+                             join price in prices on book.id equals price.bookid
+                             select new BookWithPropertiesTestModel
+                             {
+                                published =book.published,
+                                name = book.name,
+                                category = book.category,
+                                author = book.author,
+                                price = price.oldprice
+                             }).ToList();
+
+            //return joinedList;
+            return joinedList2; // her iki kullanım da mümkün
+        }
+
+        public List<BookCountsInCategoryModel> GetBookCountsInCategory()
+        {
+            var books = _bookReadRepository.GetAll();
+            var a = books.GroupBy(book => book.category).Select(row => new BookCountsInCategoryModel
+            {
+                Category = row.Key,
+                BookCount = row.Count()
+            }).ToList();
+
+
+            var b = (from book in books
+                     group book by book.category into row
+                     select new BookCountsInCategoryModel
+                     {
+                         Category = row.Key,
+                         BookCount = row.Count()
+                     }).ToList();
+
+            return a;
+            //return b;
+        }
+    }
+
+
+
 
 
 }

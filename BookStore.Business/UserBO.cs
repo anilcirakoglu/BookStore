@@ -65,6 +65,7 @@ namespace BookStore.Business
             return usersList;
         }
 
+
         public async Task<UsersModel> GetById(int id, bool tracking = true)
         {
             var users = await _usersReadRepository.GetByIdAsync(id);
