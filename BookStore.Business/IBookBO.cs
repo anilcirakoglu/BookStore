@@ -16,7 +16,7 @@ namespace BookStore.Business
 
         List<BookModel> getBooksStartingFromId(int id,int take);
 
-        List<BookModel> getCountBooksByAuthor();
+        List<BooksCountByAuthorModel> getCountBooksByAuthor();
 
         Task<BookModel> create(BookModel bookModel);
 

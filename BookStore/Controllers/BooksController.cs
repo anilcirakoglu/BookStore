@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BookStore.Business;
 using BookStore.Business.Models;
+using FluentValidation;
+using System;
+using FluentValidation.Results;
+using static System.Reflection.Metadata.BlobBuilder;
 
 
 
@@ -13,27 +17,33 @@ namespace BookStore.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-
-        readonly private IBookBO _bookBO;
        
+        readonly private IBookBO _bookBO;
+
 
         public BooksController(IBookBO bookBO)
         {
-        
             _bookBO = bookBO;
-           
+            
         }
-        
+
 
         [HttpGet]
-        public IActionResult GetAll() {
-        
-            
+        public IActionResult GetAllAsync()
+        {
+
+
             var books = _bookBO.GetAll();
             return Ok(books);
-            
-        }
 
+        }
+        [HttpGet("BooksCountByAuthor")]
+        public IActionResult BooksCountByAuthor()
+        {
+            var books = _bookBO.getCountBooksByAuthor();
+            return Ok(books);
+
+        }
         [HttpGet("GetBookWithProperties")]
         public IActionResult GetBookWithProperties()
         {
@@ -53,7 +63,7 @@ namespace BookStore.Controllers
             return Ok(books);
 
         }
-        
+
 
         [HttpGet("category/{category}/author/{author}")]
         public IActionResult getfindBooksByCategoryAndAuthor(string category,string author)
@@ -87,7 +97,7 @@ namespace BookStore.Controllers
         public async Task<IActionResult> GetById(int id)
         {
 
-            var books =await _bookBO.GetById(id);
+            var books = await _bookBO.GetById(id);
             return Ok(books);
 
         }
@@ -100,7 +110,8 @@ namespace BookStore.Controllers
             return Ok(books);
         }
         [HttpDelete("delete")]
-        public async Task<IActionResult> deleteById(int id) {
+        public async Task<IActionResult> deleteById(int id)
+        {
             await _bookBO.RemoveAsync(id);
             return Ok(id);
         }

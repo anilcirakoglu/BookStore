@@ -1,7 +1,9 @@
 ﻿using BookStore.Application.Repositories;
+using BookStore.Application.Repositories.Author;
 using BookStore.Domain.Entities;
 using BookStore.Persistence.Context;
 using BookStore.Persistence.Repositories;
+using BookStore.Persistence.Repositories.Author;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -28,6 +30,8 @@ namespace BookStore.Persistence
             services.AddScoped<IUsersReadRepository, UsersReadRepository>();
             services.AddScoped<IUsersWriteRepository, UsersWriteRepository>();
             
+            services.AddScoped<IAuthorReadRepository,AuthorReadRepository>();
+            services.AddScoped<IAuthorWriteRepository,AuthorWriteRepository>();
            
         }
     }

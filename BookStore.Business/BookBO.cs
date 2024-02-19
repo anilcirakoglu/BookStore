@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using BookStore.Application.Repositories;
+using BookStore.Application.Repositories.Author;
 using BookStore.Business.Models;
 using BookStore.Domain.Entities;
 
@@ -19,18 +20,21 @@ namespace BookStore.Business
         readonly private IBookReadRepository _bookReadRepository;
         readonly private IPricesReadRepository _priceReadRepository;
         readonly private IPricesWriteRepository _priceWriteRepository;
+        readonly private IAuthorReadRepository _authorReadRepository;
+        readonly private IAuthorWriteRepository _authorWriteRepository;
 
 
 
 
-        public BookBO(IBookReadRepository bookReadRepository, IBookWriteRepository bookWriteRepository, IPricesReadRepository pricesReadRepository, IPricesWriteRepository pricesWriteRepository)
+        public BookBO(IBookReadRepository bookReadRepository, IBookWriteRepository bookWriteRepository, IPricesReadRepository pricesReadRepository, IPricesWriteRepository pricesWriteRepository,IAuthorReadRepository authorReadRepository,IAuthorWriteRepository authorWriteRepository )
         {
 
             _bookReadRepository = bookReadRepository;
             _bookWriteRepository = bookWriteRepository;
             _priceReadRepository = pricesReadRepository;
             _priceWriteRepository = pricesWriteRepository;
-
+            _authorReadRepository = authorReadRepository;
+            _authorWriteRepository = authorWriteRepository;
 
 
 
@@ -45,7 +49,8 @@ namespace BookStore.Business
                 isbn = bookModel.isbn,
                 category = bookModel.category,
                 published = bookModel.published,
-                author = bookModel.author
+                author = bookModel.author,
+                author_id=bookModel.author_id//buraya bak !!
             };
 
             var entity2 = new Prices()
@@ -88,6 +93,7 @@ namespace BookStore.Business
                     category = book.category,
                     published = book.published,
                     author = book.author,
+                  
                     price = priceList.FirstOrDefault(x => x.bookid == book.id).price,
                     priceTL = AddTLIcon(priceList.FirstOrDefault(x => x.bookid == book.id).price.ToString())
 
@@ -150,7 +156,7 @@ namespace BookStore.Business
         }
         public List<BookModel> getFindBooksByCategoryAndAuthor(string category, string author)
         {
-            var books = _bookReadRepository.GetAll().Where(x => x.category == category && x.author == author);
+            var books = _bookReadRepository.GetAll().Where(x => x.category == category && x.author == author);//getwhere kullanmalıydım
             var priceList = _priceReadRepository.GetAll().ToList();
             var booksWithCategoryAndAuthor = new List<BookModel>();
             foreach (var book in books)
@@ -193,6 +199,7 @@ namespace BookStore.Business
         {
 
             var book = await _bookReadRepository.GetByIdAsync(id);
+            //price değerini önce sil sonra book sil
             var bookWithPrice = new BookModel
             {
                 id = book.id,
@@ -250,10 +257,7 @@ namespace BookStore.Business
 
         }
 
-        public List<BookModel> getCountBooksByAuthor()
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public List<BookWithPropertiesTestModel> GetBookWithProperties()
         {
@@ -319,6 +323,22 @@ namespace BookStore.Business
             return a;
             //return b;
         }
+        public List<BooksCountByAuthorModel> getCountBooksByAuthor()
+        {
+            var books = _bookReadRepository.GetAll();
+            var query = (from book in books
+                         group book by book.author into row
+                         select new BooksCountByAuthorModel
+                         {
+                             author = row.Key,
+                             Bookcount = row.Count()
+                         }).ToList();
+
+
+            return query;
+        }
+
+       
     }
 
 

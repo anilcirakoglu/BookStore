@@ -16,7 +16,7 @@ namespace BookStore.Domain.Entities
         public string category { get; set; }
         public bool published { get; set; }
         public string author { get; set; }
-
+        public int author_id { get; set; }
        
 
 
