@@ -19,5 +19,18 @@ namespace BookStore.Business.Models
 
 
     }
-   
+    public class AuthorsModelValidator : FluentValidation.AbstractValidator<AuthorsModel>
+    {
+        public AuthorsModelValidator()
+        {
+            RuleFor(x => x.id).NotNull();
+            RuleFor(x => x.tc).NotNull();
+            RuleFor(x => x.birthday).NotNull();
+            RuleFor(x => x.name).Length(0, 20);
+            RuleFor(x => x.email).EmailAddress();
+            RuleFor(x => x.gender).NotNull();
+
+        }
+    }
+
 }

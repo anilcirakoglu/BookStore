@@ -11,7 +11,7 @@ using BookStore.Application.Repositories.Author;
 using BookStore.Persistence.Repositories.Author;
 using FluentValidation;
 using BookStore.Business.Models;
-using BookStore.Business.ModelsValidator;
+
 
 namespace BookStore.Business
 {
@@ -39,10 +39,12 @@ namespace BookStore.Business
             services.AddScoped<IAuthorReadRepository, AuthorReadRepository>();
             services.AddScoped<IAuthorWriteRepository, AuthorWriteRepository>();
 
-            services.AddValidatorsFromAssemblyContaining<BooksModelValidator>();
-            services.AddValidatorsFromAssemblyContaining<AuthorsModelValidator>();
-            services.AddValidatorsFromAssemblyContaining<UsersModelValidator>();
-            services.AddValidatorsFromAssemblyContaining<PricesModelValidator>();
+            services.AddScoped<IValidator<BooksCountByAuthorandCategoryModel>, BooksModelValidator>();
+            services.AddScoped<IValidator<BookWithPropertiesTestModel>,BookWithPropertiesTestModelValidator>();
+
+            services.AddScoped<IValidator<BookStartingFromId>,BookStartingFromIdValidator>();
+
+           
         }
 
 

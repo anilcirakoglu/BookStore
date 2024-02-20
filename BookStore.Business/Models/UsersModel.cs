@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,21 @@ namespace BookStore.Business.Models
         public string surname { get; set; }
         public double phonenumber { get; set; }
         public string email { get; set; }
+    }
+    public class UsersModelValidator : FluentValidation.AbstractValidator<UsersModel>
+    {
+        public UsersModelValidator()
+        {
+            RuleFor(x => x.id).NotNull();
+            RuleFor(x => x.name).NotNull();
+            RuleFor(x => x.surname).NotEmpty();
+            RuleFor(x => x.phonenumber).NotNull();
+            RuleFor(x => x.email).EmailAddress();
+
+
+
+
+
+        }
     }
 }

@@ -17,14 +17,17 @@ namespace BookStore.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-       
+
         readonly private IBookBO _bookBO;
+        readonly private IValidator<BooksCountByAuthorandCategoryModel> _validator;
+        readonly private IValidator<BookStartingFromId> _validator1;
 
 
-        public BooksController(IBookBO bookBO)
+        public BooksController(IBookBO bookBO, IValidator<BooksCountByAuthorandCategoryModel> validator,IValidator<BookStartingFromId>validator1)
         {
             _bookBO = bookBO;
-            
+            _validator = validator;
+            _validator1 = validator1;
         }
 
 
@@ -58,20 +61,41 @@ namespace BookStore.Controllers
         public IActionResult GetBookCountsInCategory()
         {
 
-            //select count("category"),category from "Books" group by category
+                //select count("category"),category from "Books" group by category
             var books = _bookBO.GetBookCountsInCategory();
             return Ok(books);
-
+           
         }
 
-
-        [HttpGet("category/{category}/author/{author}")]
-        public IActionResult getfindBooksByCategoryAndAuthor(string category,string author)
+        [HttpGet("getFindBooksByCategoryAndAuthor")]
+        public IActionResult getfindBooksByCategoryAndAuthor(BooksCountByAuthorandCategoryModel model)
         {
 
+            ValidationResult result = _validator.Validate(model);
+            if (result.IsValid)
+            {
+                var books = _bookBO.getFindBooksByCategoryAndAuthor(model.category, model.author);
+                return Ok(books);
+            }
+            else
+            {
+                return BadRequest();
+            }//automapper bak
 
-            var books = _bookBO.getFindBooksByCategoryAndAuthor(category, author);
-            return Ok(books);
+        }
+       
+        [HttpGet("idandtake")]
+        public IActionResult getbooksStartingFromId(BookStartingFromId models)
+        {
+            ValidationResult result = _validator1.Validate(models);
+            if (result.IsValid) {
+                var books = _bookBO.getBooksStartingFromId(models.id, models.take);
+                return Ok(books);
+            }
+            else
+            {
+                return BadRequest();
+            }
 
         }
         [HttpGet("id/{id}/take/{take}")]
@@ -83,15 +107,15 @@ namespace BookStore.Controllers
             return Ok(books);
 
         }
-        [HttpGet("allBooks count by author")]
-        public IActionResult getCountBooksByAuthor(int id, int take)
-        {
+        //[HttpGet("allBookscountbyauthor")]
+        //public IActionResult getCountBooksByAuthor()
+        //{
 
 
-            var books = _bookBO.getBooksStartingFromId(id, take);
-            return Ok(books);
+        //    var books = _bookBO.getCountBooksByAuthor();
+        //    return Ok(books);
 
-        }
+        //}
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)

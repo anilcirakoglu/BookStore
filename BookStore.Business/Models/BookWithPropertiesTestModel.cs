@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,17 @@ namespace BookStore.Business.Models
         /// Bu alandaki veri oldPrice alanından alınacaktır.
         /// </summary>
         public decimal price { get; set; }
-    } 
+    }
+    public class BookWithPropertiesTestModelValidator : FluentValidation.AbstractValidator<BookWithPropertiesTestModel>
+    {
+        public BookWithPropertiesTestModelValidator()
+        {
+            
+            RuleFor(x => x.name).NotNull();
+            RuleFor(x => x.category).NotNull();
+            RuleFor(x => x.author).Length(0, 20);
+            
+
+        }
+    }
 }

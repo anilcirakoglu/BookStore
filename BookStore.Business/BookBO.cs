@@ -323,12 +323,12 @@ namespace BookStore.Business
             return a;
             //return b;
         }
-        public List<BooksCountByAuthorModel> getCountBooksByAuthor()
+        public List<BooksCountByAuthorandCategoryModel> getCountBooksByAuthor()
         {
             var books = _bookReadRepository.GetAll();
             var query = (from book in books
                          group book by book.author into row
-                         select new BooksCountByAuthorModel
+                         select new BooksCountByAuthorandCategoryModel
                          {
                              author = row.Key,
                              Bookcount = row.Count()
@@ -338,7 +338,7 @@ namespace BookStore.Business
             return query;
         }
 
-       
+        
     }
 
 

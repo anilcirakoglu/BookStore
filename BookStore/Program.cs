@@ -1,14 +1,14 @@
 
 
 using BookStore.Persistence.Context;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-
 using Quartz.Impl;
 using Quartz;
 using BookStore.Jobs;
 using BookStore.Business;
+using FluentValidation.AspNetCore;
+using BookStore.Business.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,7 +38,7 @@ builder.Services.AddQuartz(q =>
 
 builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
-
+//builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<BooksCountByAuthorModel>());
 
 
 
