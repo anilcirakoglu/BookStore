@@ -9,7 +9,8 @@ namespace BookStore.Domain.Entities
 {
     public class Authors : BaseEntity
     {
-        public int tc {  get; set; }
+        public int id {  get; set; }
+        public double TC {  get; set; }
         public DateTime birthday { get; set; }
         public string name { get; set; }
         public string email { get; set; }

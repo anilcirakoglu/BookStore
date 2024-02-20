@@ -17,13 +17,13 @@ namespace BookStore.Persistence.EntityConfigurations
 
 
 
-            builder.Property(f => f.tc).IsRequired().HasMaxLength(256);
+            builder.Property(f => f.TC).IsRequired().HasMaxLength(256);
 
             builder.Property(f => f.birthday).IsRequired().HasMaxLength(128);
 
             builder.Property(f => f.name).IsRequired().HasMaxLength(256);
 
-            builder.Property(f => f.email).IsRequired().HasMaxLength(256); ;
+            builder.Property(f => f.email);
 
             builder.Property(f => f.gender).IsRequired().HasMaxLength(256);
 

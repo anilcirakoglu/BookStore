@@ -8,6 +8,9 @@ using FluentValidation;
 using System;
 using FluentValidation.Results;
 using static System.Reflection.Metadata.BlobBuilder;
+using AutoMapper;
+using BookStore.Business.Mapping;
+using BookStore.Domain.Entities;
 
 
 
@@ -17,17 +20,18 @@ namespace BookStore.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-
+        readonly private IMapper _mapper;
         readonly private IBookBO _bookBO;
         readonly private IValidator<BooksCountByAuthorandCategoryModel> _validator;
         readonly private IValidator<BookStartingFromId> _validator1;
 
 
-        public BooksController(IBookBO bookBO, IValidator<BooksCountByAuthorandCategoryModel> validator,IValidator<BookStartingFromId>validator1)
+        public BooksController(IBookBO bookBO, IValidator<BooksCountByAuthorandCategoryModel> validator,IValidator<BookStartingFromId>validator1,IMapper mapper)
         {
             _bookBO = bookBO;
             _validator = validator;
             _validator1 = validator1;
+            _mapper = mapper;
         }
 
 
@@ -37,7 +41,8 @@ namespace BookStore.Controllers
 
 
             var books = _bookBO.GetAll();
-            return Ok(books);
+            var bookDtos = _mapper.Map<List<BookModelDto>>(books);
+            return Ok(bookDtos);
 
         }
         [HttpGet("BooksCountByAuthor")]

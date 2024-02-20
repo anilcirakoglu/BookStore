@@ -41,7 +41,30 @@ namespace BookStore.Business
 
         public List<AuthorsModel> GetAll()
         {
-            throw new NotImplementedException();
+           
+            
+                var authors = _authorReadRepository.GetAll().ToList();
+                var AuthorsModelList = new List<AuthorsModel>();
+               
+                foreach (var author in authors)
+                {
+                    var authorsList = new AuthorsModel
+                    {
+                        id=author.id,
+                        TC =author.TC,
+                        birthday = author.birthday,
+                        name = author.name,
+                        email = author.email,
+                        gender = author.gender,
+                       
+
+
+
+                    };
+                    AuthorsModelList.Add(authorsList);
+                }
+                return AuthorsModelList;
+            
         }
 
         public Task<AuthorsModel> GetById(int id, bool tracking = true)

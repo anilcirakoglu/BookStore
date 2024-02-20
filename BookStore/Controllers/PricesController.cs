@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using BookStore.Business;
 using BookStore.Business.Models;
 using Microsoft.AspNetCore.Http;
@@ -13,17 +14,20 @@ namespace BookStore.Controllers
 
 
         readonly private IPriceBO _priceBO;
+        readonly private IMapper _mapper;
 
-        public PricesController(IPriceBO priceBO)
+        public PricesController(IPriceBO priceBO,IMapper mapper)
         {
             _priceBO = priceBO;
+            _mapper = mapper;
 
         }
         [HttpGet]
         public IActionResult GetAll()
         {
             var price = _priceBO.GetAll();
-            return Ok(price);
+            var priceDtos = _mapper.Map<List<PricesModelDto>>(price);
+            return Ok(priceDtos);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)

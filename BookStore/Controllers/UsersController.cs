@@ -1,4 +1,5 @@
-﻿using BookStore.Business;
+﻿using AutoMapper;
+using BookStore.Business;
 using BookStore.Business.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,15 +11,18 @@ namespace BookStore.Controllers
     public class UsersController : ControllerBase
     {
        readonly private IUserBO _userBO;
-        public UsersController(IUserBO userBO)
+        readonly private IMapper _mapper;
+        public UsersController(IUserBO userBO,IMapper mapper)
         {
             _userBO = userBO;
+            _mapper = mapper;
         }
         [HttpGet]
         public IActionResult GetAll()
         {
-            var book = _userBO.GetAll();
-            return Ok(book);
+            var user = _userBO.GetAll();
+            var userdto = _mapper.Map<List<UsersModelDto>>(user);
+            return Ok(userdto);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)

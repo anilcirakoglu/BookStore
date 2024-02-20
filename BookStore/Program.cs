@@ -9,6 +9,7 @@ using BookStore.Jobs;
 using BookStore.Business;
 using FluentValidation.AspNetCore;
 using BookStore.Business.Models;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 

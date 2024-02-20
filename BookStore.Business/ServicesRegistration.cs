@@ -11,6 +11,10 @@ using BookStore.Application.Repositories.Author;
 using BookStore.Persistence.Repositories.Author;
 using FluentValidation;
 using BookStore.Business.Models;
+using BookStore.Business.Mapping;
+using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
+
 
 
 namespace BookStore.Business
@@ -44,7 +48,10 @@ namespace BookStore.Business
 
             services.AddScoped<IValidator<BookStartingFromId>,BookStartingFromIdValidator>();
 
-           
+
+            services.AddAutoMapper(typeof(AutoMapping));
+
+
         }
 
 
