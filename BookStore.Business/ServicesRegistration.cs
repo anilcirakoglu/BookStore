@@ -48,7 +48,8 @@ namespace BookStore.Business
 
             services.AddScoped<IValidator<BookStartingFromId>,BookStartingFromIdValidator>();
 
-
+            services.AddLogging();
+            services.AddMemoryCache();
             services.AddAutoMapper(typeof(AutoMapping));
 
 

@@ -12,7 +12,7 @@ namespace BookStore.Controllers
     public class PricesController : ControllerBase
     {
 
-
+        
         readonly private IPriceBO _priceBO;
         readonly private IMapper _mapper;
 
@@ -20,7 +20,7 @@ namespace BookStore.Controllers
         {
             _priceBO = priceBO;
             _mapper = mapper;
-
+            
         }
         [HttpGet]
         public IActionResult GetAll()

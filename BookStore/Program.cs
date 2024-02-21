@@ -10,10 +10,29 @@ using BookStore.Business;
 using FluentValidation.AspNetCore;
 using BookStore.Business.Models;
 using AutoMapper;
+using Serilog;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
+using BookStore.Controllers;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//Add services to the container.
+
+
+
+//--log
+//var logger = new LoggerConfiguration()
+//    .ReadFrom.Configuration(builder.Configuration)
+//    .Enrich.FromLogContext()
+//    .WriteTo.Console()
+//    .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)//günlük olarak yeni bir dosya oluþturacak
+//    .CreateLogger();
+
+//builder.Logging.ClearProviders();
+//builder.Logging.AddSerilog(logger);
+
+//--
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

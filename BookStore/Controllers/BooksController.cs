@@ -20,6 +20,7 @@ namespace BookStore.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
+        
         readonly private IMapper _mapper;
         readonly private IBookBO _bookBO;
         readonly private IValidator<BooksCountByAuthorandCategoryModel> _validator;
@@ -32,6 +33,7 @@ namespace BookStore.Controllers
             _validator = validator;
             _validator1 = validator1;
             _mapper = mapper;
+           
         }
 
 
@@ -133,7 +135,7 @@ namespace BookStore.Controllers
         [HttpPost("create")]
         public async Task<ActionResult<BookModel>> Create(BookModel book)
         {
-
+          
 
             var books =await _bookBO.create(book);
             return Ok(books);
