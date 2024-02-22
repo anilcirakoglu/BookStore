@@ -14,6 +14,8 @@ using BookStore.Business.Models;
 using BookStore.Business.Mapping;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
+using BookStore.Business.Aspects;
+using Castle.DynamicProxy;
 
 
 
@@ -52,7 +54,10 @@ namespace BookStore.Business
             services.AddMemoryCache();
             services.AddAutoMapper(typeof(AutoMapping));
 
+            services.AddSingleton<IProxyGenerator, ProxyGenerator>();
 
+            services.AddTransient<InterceptorBase<PerformanceAttribute>, PerformanceInterceptor>();
+            services.AddTransient<InterceptorBase<CacheAttribute>, CacheInterceptor>();
         }
 
 
