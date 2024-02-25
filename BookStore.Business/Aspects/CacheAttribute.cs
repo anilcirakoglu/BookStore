@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace BookStore.Business.Aspects
 {
-  
+    [AttributeUsage(AttributeTargets.Method)]
     public class CacheAttribute : AttributeBase
     {
-        public TimeSpan ExpirationTime { get; set; }
+        public int Duration { get; set; }
         public CacheAttribute(int seconds)
         {
-            ExpirationTime = TimeSpan.FromSeconds(seconds);
+            Duration = seconds;
         }
-
     }
 }

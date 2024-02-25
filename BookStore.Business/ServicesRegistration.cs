@@ -16,6 +16,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using BookStore.Business.Aspects;
 using Castle.DynamicProxy;
+using Core.Dependencies;
 
 
 
@@ -58,6 +59,9 @@ namespace BookStore.Business
 
             services.AddTransient<InterceptorBase<PerformanceAttribute>, PerformanceInterceptor>();
             services.AddTransient<InterceptorBase<CacheAttribute>, CacheInterceptor>();
+            services.AddTransient<InterceptorBase<LogAttribute>, LogInterceptor>();
+           
+            
         }
 
 

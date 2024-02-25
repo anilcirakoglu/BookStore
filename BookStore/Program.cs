@@ -14,6 +14,8 @@ using Serilog;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
 using BookStore.Controllers;
 using Serilog.Events;
+using BookStore.Business.Aspects;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +31,7 @@ Log.Logger = new LoggerConfiguration()
 //    .ReadFrom.Configuration(builder.Configuration)
 //    .Enrich.FromLogContext()
 //    .WriteTo.Console()
+//    .MinimumLevel.Information()
 //    .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)//günlük olarak yeni bir dosya oluþturacak
 //    .CreateLogger();
 
@@ -43,6 +46,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddPersistanceServices();
+builder.Services.ConfigureBusiness();
+
 
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL")));
 

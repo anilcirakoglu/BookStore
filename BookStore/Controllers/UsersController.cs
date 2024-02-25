@@ -11,7 +11,7 @@ using Serilog;
 namespace BookStore.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController]    
     public class UsersController : ControllerBase
     {
         readonly private ILogger<UsersController> _logger;
@@ -32,12 +32,39 @@ namespace BookStore.Controllers
 
 
         }
-        [Cache(10)]
-        
+
+        //[Performance(Interval = 100)]
+
+        [Cache(50)]
         [HttpGet]
+        [Performance(Interval = 100)]
         public IActionResult GetAll()
         {
-           
+            //var cacheKey = "Users"; // Önbellek anahtarı
+
+
+            //if (_cache.TryGetValue(cacheKey, out var cachedData))
+            //{
+            //    var usersDto = cachedData as List<UsersModelDto>;
+            //    return Ok(usersDto);
+            //}
+            //else
+            //{
+
+            //    var users = _userBO.GetAll();
+            //    var usersDto = _mapper.Map<List<UsersModelDto>>(users);
+
+
+            //    _cache.Set(cacheKey, usersDto, new MemoryCacheEntryOptions
+            //    {
+            //        // Önbellekten otomatik olarak kaldırılma süresi
+            //        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1)
+
+            //});
+
+            //    return Ok(usersDto);
+            //}
+
             var user = _userBO.GetAll();
             var userdto = _mapper.Map<List<UsersModelDto>>(user);
             return Ok(userdto);

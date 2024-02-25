@@ -8,34 +8,48 @@ using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using System.Diagnostics;
 using System.Reflection;
+using Serilog.Core;
+using Castle.Core.Logging;
+using Serilog;
+using Microsoft.EntityFrameworkCore.Diagnostics.Internal;
+using Core.Dependencies;
 
 namespace BookStore.Business.Aspects
 {
-   
+
     public class CacheInterceptor : InterceptorBase<CacheAttribute>
     {
-        private readonly IMemoryCache _cache;
-       
-        
+        readonly private IMemoryCache _cache;
+
+
+
         public CacheInterceptor(IMemoryCache cache)
         {
             _cache = cache;
-           
+
         }
-      
+
         protected override void OnAfter(IInvocation invocation, CacheAttribute attribute)
         {
+            invocation.Proceed();
+
             if (attribute != null)
             {
                 var cacheKey = $"{invocation.Method.DeclaringType.FullName}.{invocation.Method.Name}";
 
                 if (invocation.ReturnValue != null)
                 {
-                    _cache.Set(cacheKey, invocation.ReturnValue, attribute.ExpirationTime);
+                    var options = new MemoryCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(attribute.Duration)
+                    };
+                    _cache.Set(cacheKey, invocation.ReturnValue, options);
+
+                    Log.Information($"Data cached with key: {cacheKey}");
+                    Log.Debug("This is a debug message.");
                 }
             }
         }
-        
-
     }
 }
+

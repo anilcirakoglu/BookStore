@@ -1,5 +1,7 @@
 ﻿using Castle.DynamicProxy;
+using Core.Dependencies;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,6 +32,7 @@ namespace BookStore.Business.Aspects
             if (_stopwatch.Elapsed.TotalMilliseconds > attribute.Interval)
             {
                 _logger.LogInformation($"{invocation.Method.Name} elapsed {_stopwatch.Elapsed.TotalSeconds} second(s).");
+                Log.Information($"{invocation.Method.Name} elapsed {_stopwatch.Elapsed.TotalSeconds} second(s).");
             }
             _stopwatch.Stop();
         }
