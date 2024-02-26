@@ -1,6 +1,7 @@
 ﻿using BookStore.Application.Repositories;
 using BookStore.Application.Repositories.Author;
 using BookStore.Business.Models;
+using BookStore.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Business
 {
-    public class AuthorBO:IAuthorBO
+    public class AuthorBO : IAuthorBO
     {
         readonly private IBookWriteRepository _bookWriteRepository;
         readonly private IBookReadRepository _bookReadRepository;
@@ -19,7 +20,7 @@ namespace BookStore.Business
         readonly private IAuthorWriteRepository _authorWriteRepository;
 
 
-        public AuthorBO(IBookReadRepository bookReadRepository, IBookWriteRepository bookWriteRepository, IPricesReadRepository pricesReadRepository, IPricesWriteRepository pricesWriteRepository,IAuthorReadRepository authorReadRepository,IAuthorWriteRepository authorWriteRepository)
+        public AuthorBO(IBookReadRepository bookReadRepository, IBookWriteRepository bookWriteRepository, IPricesReadRepository pricesReadRepository, IPricesWriteRepository pricesWriteRepository, IAuthorReadRepository authorReadRepository, IAuthorWriteRepository authorWriteRepository)
 
         {
 
@@ -28,63 +29,108 @@ namespace BookStore.Business
             _priceReadRepository = pricesReadRepository;
             _priceWriteRepository = pricesWriteRepository;
             _authorReadRepository = authorReadRepository;
-            _authorWriteRepository = authorWriteRepository; 
+            _authorWriteRepository = authorWriteRepository;
 
 
 
         }
 
-        public Task<AuthorsModel> create(AuthorsModel bookModel)
+        public async Task<AuthorsModel> create(AuthorsModel authorModel)
         {
-            throw new NotImplementedException();
+            var author = new Authors()
+            {
+                id = authorModel.id,
+                TC = authorModel.TC,
+                name = authorModel.name,
+                birthday = authorModel.birthday,
+                email = authorModel.email,
+                gender = authorModel.gender,
+            };
+            await _authorWriteRepository.AddAsync(author);
+            await _authorWriteRepository.SaveAsync();
+            return authorModel;
         }
 
         public List<AuthorsModel> GetAll()
         {
-           
-            
-                var authors = _authorReadRepository.GetAll().ToList();
-                var AuthorsModelList = new List<AuthorsModel>();
-               
-                foreach (var author in authors)
+
+
+            var authors = _authorReadRepository.GetAll().ToList();
+            var AuthorsModelList = new List<AuthorsModel>();
+
+            foreach (var author in authors)
+            {
+                var authorsList = new AuthorsModel
                 {
-                    var authorsList = new AuthorsModel
-                    {
-                        id=author.id,
-                        TC =author.TC,
-                        birthday = author.birthday,
-                        name = author.name,
-                        email = author.email,
-                        gender = author.gender,
-                       
+                    id = author.id,
+                    TC = author.TC,
+                    birthday = author.birthday,
+                    name = author.name,
+                    email = author.email,
+                    gender = author.gender,
 
 
 
-                    };
-                    AuthorsModelList.Add(authorsList);
-                }
-                return AuthorsModelList;
-            
+
+                };
+                AuthorsModelList.Add(authorsList);
+            }
+            return AuthorsModelList;
+
         }
 
-        public Task<AuthorsModel> GetById(int id, bool tracking = true)
+        public async Task<AuthorsModel> GetById(int id, bool tracking = true)
         {
-            throw new NotImplementedException();
+            var author = await _authorReadRepository.GetByIdAsync(id);
+            var authors = new AuthorsModel
+            {
+                id = author.id,
+                TC = author.TC,
+                birthday = author.birthday,
+                name = author.name,
+                email = author.email,
+                gender = author.gender
+
+            };
+            return authors;
         }
 
-        public Task RemoveAsync(int id)
+        public async Task RemoveAsync(int id)
         {
-            throw new NotImplementedException();
+            var author = await _authorReadRepository.GetByIdAsync(id);
+            var authorRemove = new AuthorsModel
+            {
+                id = author.id,
+                TC = author.TC,
+                birthday = author.birthday,
+                name = author.name,
+                email = author.email,
+                gender = author.gender
+
+            };
+            await _authorWriteRepository.RemoveAsync(id);
+            await _authorWriteRepository.SaveAsync();
         }
 
-        public Task<int> SaveAsync()
+        public async Task<int> SaveAsync()
         {
-            throw new NotImplementedException();
+            var author = await _authorWriteRepository.SaveAsync();
+            return author;
         }
 
-        public Task UpdateAsync(AuthorsModel authorModel)
+        public async Task UpdateAsync(AuthorsModel authorModel)
         {
-            throw new NotImplementedException();
+            var authorUpdate = _authorReadRepository.GetAll().FirstOrDefault(x => x.id == authorModel.id);
+
+            if (authorUpdate != null)
+            {
+                authorUpdate.TC = authorModel.TC;
+                authorUpdate.birthday = authorModel.birthday;
+                authorUpdate.name = authorModel.name;
+                authorUpdate.gender = authorModel.gender;
+            }
+            _authorWriteRepository.Update(authorUpdate);
+            await _authorWriteRepository.SaveAsync();
         }
     }
 }

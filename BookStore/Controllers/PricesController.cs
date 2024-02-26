@@ -45,8 +45,8 @@ namespace BookStore.Controllers
         }
        
        
-            [HttpPut]
-
+        [HttpPut]
+         
         public IActionResult update(PricesModel priceModel)
         {
             _priceBO.UpdateAsync(priceModel);

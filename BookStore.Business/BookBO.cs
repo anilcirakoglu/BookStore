@@ -154,9 +154,11 @@ namespace BookStore.Business
             }// (sayfa-1)*pagesize skip değeri --- take> pagesize
             return BooksStartingFromId;
         }
-        public List<BookModel> getFindBooksByCategoryAndAuthor(string category, string author)
+        public List<BookModel> getFindBooksByCategoryAndAuthor(string category,string author)
         {
-            var books = _bookReadRepository.GetAll().Where(x => x.category == category && x.author == author);//getwhere kullanmalıydım
+            //var books = _bookReadRepository.GetAll().Where(x => x.category == category && x.author == author);
+           var books = _bookReadRepository.GetWhere(x => x.category == category && x.author == author);
+            //getwhere kullanmalıydım
             var priceList = _priceReadRepository.GetAll().ToList();
             var booksWithCategoryAndAuthor = new List<BookModel>();
             foreach (var book in books)
@@ -169,6 +171,7 @@ namespace BookStore.Business
                     category = book.category,
                     published = book.published,
                     author = book.author,
+                    author_id=book.author_id,
                     price = priceList.FirstOrDefault(x => x.bookid == book.id).price,
                     priceTL = priceList.FirstOrDefault(x => x.bookid == book.id).price.ToString() + "TL"
 
