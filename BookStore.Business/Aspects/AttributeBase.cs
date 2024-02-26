@@ -10,5 +10,6 @@ namespace BookStore.Business.Aspects
     public abstract class AttributeBase : Attribute
     {
         public int Priority { get; set; }
+
     }
 }
