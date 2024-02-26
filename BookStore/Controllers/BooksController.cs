@@ -74,7 +74,7 @@ namespace BookStore.Controllers
            
         }
 
-        [HttpGet("getFindBooksByCategoryAndAuthor")]
+        [HttpPost("getFindBooksByCategoryAndAuthor")]
         public IActionResult getfindBooksByCategoryAndAuthor(BooksCountByAuthorandCategoryModel model)
         {
 
@@ -91,7 +91,7 @@ namespace BookStore.Controllers
 
         }
        
-        [HttpGet("idandtake")]
+        [HttpPost("idandtake")]
         public IActionResult getbooksStartingFromId(BookStartingFromId models)
         {
             ValidationResult result = _validator1.Validate(models);
