@@ -16,5 +16,9 @@ namespace BookStore.Business
         Task<int> SaveAsync();
 
         Task RemoveAsync(int id);
+
+        Task<(int, string)> Registeration(RegistrationModel model);
+        string Login(LoginModel model);
+        Task<List<string>> GetRolesAsync(int id);
     }
 }

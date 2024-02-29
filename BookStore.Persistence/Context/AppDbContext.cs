@@ -13,8 +13,7 @@ namespace BookStore.Persistence.Context
     public class AppDbContext : DbContext
     {
       
-        //Users
-        //ShoppingCartItems
+       
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options): base(options)
@@ -24,6 +23,7 @@ namespace BookStore.Persistence.Context
         public DbSet<Book> Book { get; set; }
         public DbSet<Users> Users { get; set; }
         public DbSet<Prices> Prices { get; set; }
+        public DbSet<Roles> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

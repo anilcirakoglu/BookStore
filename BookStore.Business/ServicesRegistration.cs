@@ -17,6 +17,9 @@ using Microsoft.AspNetCore.Hosting;
 using BookStore.Business.Aspects;
 using Castle.DynamicProxy;
 using Core.Dependencies;
+using Microsoft.AspNetCore.Identity;
+using BookStore.Persistence.Context;
+
 
 
 
@@ -28,7 +31,7 @@ namespace BookStore.Business
         public static void AddPersistanceServices(this IServiceCollection services)
         {
             //services.AddControllers();
-            
+
             services.AddScoped<IBookBO, BookBO>();
             services.AddScoped<IPriceBO, PriceBO>();
             services.AddScoped<IUserBO, UserBO>();
@@ -46,22 +49,34 @@ namespace BookStore.Business
             services.AddScoped<IAuthorReadRepository, AuthorReadRepository>();
             services.AddScoped<IAuthorWriteRepository, AuthorWriteRepository>();
 
-            services.AddScoped<IValidator<BooksCountByAuthorandCategoryModel>, BooksModelValidator>();
-            services.AddScoped<IValidator<BookWithPropertiesTestModel>,BookWithPropertiesTestModelValidator>();
+            services.AddScoped<IRolesReadRepository, RolesReadRepository>();
+            services.AddScoped<IRolesWriteRepository, RolesWriteRepository>();
 
-            services.AddScoped<IValidator<BookStartingFromId>,BookStartingFromIdValidator>();
+            services.AddScoped<ICustomerRoleReadRepository,CustomerRoleReadRepository>();
+            services.AddScoped<ICustomerRoleWriteRepository, CustomerRoleWriteRepository>();
+
+
+            services.AddScoped<IValidator<BooksCountByAuthorandCategoryModel>, BooksModelValidator>();
+            services.AddScoped<IValidator<BookWithPropertiesTestModel>, BookWithPropertiesTestModelValidator>();
+
+            services.AddScoped<IValidator<BookStartingFromId>, BookStartingFromIdValidator>();
 
             services.AddLogging();
             services.AddMemoryCache();
             services.AddAutoMapper(typeof(AutoMapping));
+
+            
+
+
+
 
             services.AddSingleton<IProxyGenerator, ProxyGenerator>();
 
             services.AddTransient<InterceptorBase<PerformanceAttribute>, PerformanceInterceptor>();
             services.AddTransient<InterceptorBase<CacheAttribute>, CacheInterceptor>();
             services.AddTransient<InterceptorBase<LogAttribute>, LogInterceptor>();
-           
-            
+
+
         }
 
 

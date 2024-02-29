@@ -2,6 +2,7 @@
 using BookStore.Business;
 using BookStore.Business.Aspects;
 using BookStore.Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
@@ -11,7 +12,7 @@ using Serilog;
 namespace BookStore.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]    
+    [ApiController]
     public class UsersController : ControllerBase
     {
         readonly private ILogger<UsersController> _logger;
@@ -34,10 +35,11 @@ namespace BookStore.Controllers
         }
 
         //[Performance(Interval = 100)]
-
-        [Cache(50)]
+        [Authorize(Roles = "Admin")]
+        //[Cache(50)]
         [HttpGet]
-        [Performance(Interval = 100)]
+        //[Performance(Interval = 100)]
+       
         public IActionResult GetAll()
         {
             //var cacheKey = "Users"; // Önbellek anahtarı
@@ -76,23 +78,23 @@ namespace BookStore.Controllers
             return Ok(user);
 
         }
-        
+
         [HttpPost("create")]
         public async Task<ActionResult<UsersModel>> create(UsersModel usersModel)
         {
-            
+
             Log.Information("New user creating: {@User}", usersModel);
-           
+
             var userCreate = await _userBO.create(usersModel);
             if (userCreate != null)
             {
-                
+
                 Log.Information("New user created successfully: {@User}", userCreate);
                 return Ok(userCreate);
             }
             else
             {
-                
+
                 Log.Error("Failed to create new user");
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
@@ -114,6 +116,22 @@ namespace BookStore.Controllers
             return Ok(usersModel);
 
         }
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login(LoginModel model)
+        {
+            var user = _userBO.Login(model);
 
+            return Ok(user);
+        }
+        [HttpPost]
+        [Route("registeration")]
+        public async Task<IActionResult> Register(RegistrationModel model)
+        {
+           var userReg =await _userBO.Registeration(model);
+            return Ok(userReg);
+
+
+        }
     }
-}
+    }

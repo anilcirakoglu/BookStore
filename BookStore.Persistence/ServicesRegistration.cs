@@ -32,7 +32,14 @@ namespace BookStore.Persistence
             
             services.AddScoped<IAuthorReadRepository,AuthorReadRepository>();
             services.AddScoped<IAuthorWriteRepository,AuthorWriteRepository>();
-           
+
+            services.AddScoped<IRolesReadRepository, RolesReadRepository>();
+            services.AddScoped<IRolesWriteRepository, RolesWriteRepository>();
+
+            services.AddScoped<ICustomerRoleReadRepository, CustomerRoleReadRepository>();
+            services.AddScoped<ICustomerRoleWriteRepository, CustomerRoleWriteRepository>();
+
+
         }
     }
 }

@@ -18,6 +18,9 @@ namespace BookStore.Persistence.EntityConfigurations
             builder.Property(f => f.surname).IsRequired().HasMaxLength(128);
             builder.Property(f => f.phonenumber).IsRequired().HasMaxLength(256);
             builder.Property(f => f.email).IsRequired().HasMaxLength(256);
+            builder.Property(f=>f.password).IsRequired().HasMaxLength(256);
+            builder.Property(f=>f.username).IsRequired().HasMaxLength(256);
+           
         }
     }
 }

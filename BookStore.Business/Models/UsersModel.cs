@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,9 @@ namespace BookStore.Business.Models
         public string surname { get; set; }
         public double phonenumber { get; set; }
         public string email { get; set; }
+        public string? password { get; set; }
+        public string username { get; set; }
+        
     }
     public class UsersModelValidator : FluentValidation.AbstractValidator<UsersModel>
     {
@@ -24,8 +28,8 @@ namespace BookStore.Business.Models
             RuleFor(x => x.surname).NotEmpty();
             RuleFor(x => x.phonenumber).NotNull();
             RuleFor(x => x.email).EmailAddress();
-
-
+            RuleFor(x=>x.password).NotNull();
+            RuleFor(x => x.username).NotNull();
 
 
 

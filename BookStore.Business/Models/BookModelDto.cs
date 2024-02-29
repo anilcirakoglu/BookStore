@@ -13,5 +13,6 @@ namespace BookStore.Business.Models
         public string category { get; set; }
         public bool published { get; set; }
         public string author { get; set; }
+        public decimal price { get; set; }
     }
 }

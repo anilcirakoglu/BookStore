@@ -19,6 +19,7 @@ namespace BookStore.Business.Mapping
             CreateMap<PricesModel, PricesModelDto>();
             CreateMap<AuthorsModel,AuthorsModelDto>();
             CreateMap<UsersModel, UsersModelDto>();
+            CreateMap<UsersModel, LoginModel>();
         }
     }
 }

@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using BookStore.Business;
 using BookStore.Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace BookStore.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class AuthorsController : ControllerBase
@@ -21,6 +23,7 @@ namespace BookStore.Controllers
             _mapper = mapper;
         }
         #region GetMethod
+      
         [HttpGet]
         public IActionResult Getall()
         {
@@ -29,6 +32,8 @@ namespace BookStore.Controllers
             return Ok(authorDto);
 
         }
+
+        
         [HttpGet("{id}")]
         public async Task<IActionResult> GetbyID(int id)
         {
@@ -39,8 +44,9 @@ namespace BookStore.Controllers
 
         }
         #endregion
-       
+
         #region deleteMethod
+        
         [HttpDelete("delete")]
         public async Task<IActionResult> deletebyID(int id)
         {
