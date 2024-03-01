@@ -172,14 +172,14 @@ namespace BookStore.Business
 
             var userRoles = GetRolesAsync(user.id).Result;
 
-        
+
             var tokenClaims = new List<Claim>
     {
         new Claim(ClaimTypes.NameIdentifier, user.id.ToString()),
         new Claim(ClaimTypes.Name, user.name)
     };
 
-          
+
             if (userRoles != null)
             {
                 foreach (var role in userRoles)
@@ -187,60 +187,44 @@ namespace BookStore.Business
                     tokenClaims.Add(new Claim(ClaimTypes.Role, role));
                 }
             }
-        
+
             var token = GenerateToken(tokenClaims);
             return token;
 
 
         }
 
-        public async Task<(int, string)> Registeration(RegistrationModel model)
+        public async Task<RegistrationModel> Registeration(RegistrationModel model)
         {
 
             var userExists = await _usersReadRepository.GetWhere(x => x.username == model.username).FirstOrDefaultAsync();
-            if (userExists != null)
-                return (0, "User already exists");
+
+
 
             var user = new Users()
             {
-                email = model.email,
-                username = model.username,
                 name = model.name,
+                surname = model.surname,
+                email = model.email,
+                phonenumber = model.phoneNumber,
+                username = model.username,
                 password = model.password,
             };
 
             await _usersWriteRepository.AddAsync(user);
+            await _usersWriteRepository.SaveAsync();
 
-            try
+            await _customerRoleWriteRepository.AddAsync(new CustomerRole
             {
-                // Değişiklikleri kaydet
-                await _usersWriteRepository.SaveAsync();
-                return (1, "User created successfully!");
-            }
-            catch (Exception ex)
-            {
-                // Hata durumunda uygun mesajı döndür
-                return (0, $"User creation failed! Error: {ex.Message}");
-            }
+                Role_id = 2,
+                Customer_id = user.id
+            });
+
+            await _customerRoleWriteRepository.SaveAsync();
 
 
-            //var userExists = await _userManager.FindByNameAsync(model.username ?? "");
-            //if (userExists != null)
-            //    return (0, "User already exists");
+            return model;
 
-            //var user  = new UsersModel()
-            //{
-            //    Email = model.email,
-            //    SecurityStamp = Guid.NewGuid().ToString(),
-            //    UserName = model.username,
-
-            //};
-            //var createUserResult = await _userManager.CreateAsync(user, model.password ?? "");
-            //if (!createUserResult.Succeeded)
-            //    return (0, "User creation failed! Please check user details and try again.");
-
-
-            //return (1, "User created successfully!");
         }
         private string GenerateToken(IEnumerable<Claim> claims)
         {
@@ -276,15 +260,15 @@ namespace BookStore.Business
              //           where crmmodel.CustomerId = userid
              //           select userrolemodel.RoleName
 
-            
+
 
             var roles = _rolesReadRepository.GetAll();
             var customerRoles = _customerRoleReadRepository.GetAll();
 
-            var userRoles =(from role in roles 
-                           join customerRole in customerRoles on role.id equals customerRole.RoleId
-                           where customerRole.CustomerId == id
-                           select role.role
+            var userRoles = (from role in roles
+                             join customerRole in customerRoles on role.id equals customerRole.Role_id
+                             where customerRole.Customer_id == id
+                             select role.role
                            ).ToList();
 
             return userRoles;

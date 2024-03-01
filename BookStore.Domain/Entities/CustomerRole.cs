@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace BookStore.Domain.Entities
 {
-    public class CustomerRole: BaseEntity
+    public class CustomerRole : BaseEntity
     {
-        public int CustomerId { get; set; }
-        public int RoleId { get; set; }
+        
+        public int Customer_id { get; set; }
+        public int Role_id { get; set; }
     }
 }

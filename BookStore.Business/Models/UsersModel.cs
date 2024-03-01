@@ -23,7 +23,7 @@ namespace BookStore.Business.Models
     {
         public UsersModelValidator()
         {
-            RuleFor(x => x.id).NotNull();
+            
             RuleFor(x => x.name).NotNull();
             RuleFor(x => x.surname).NotEmpty();
             RuleFor(x => x.phonenumber).NotNull();

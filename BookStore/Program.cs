@@ -78,11 +78,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
      };
  });
-//builder.Services.AddIdentity<RolesModel, RolesModel>()
-//                .AddEntityFrameworkStores<AppDbContext>()
-//                .AddDefaultTokenProviders();
 
-// Adding Authentication  
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

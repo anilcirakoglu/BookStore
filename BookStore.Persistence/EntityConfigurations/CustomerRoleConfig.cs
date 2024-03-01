@@ -14,8 +14,9 @@ namespace BookStore.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<CustomerRole> builder)
         {
             builder.ToTable("CustomerRoleMapping");
-            builder.Property(f => f.CustomerId).IsRequired().HasMaxLength(256);
-            builder.Property(f => f.RoleId).IsRequired().HasMaxLength(256);
+            builder.HasKey(x => x.id);
+            builder.Property(f => f.Customer_id).IsRequired().HasMaxLength(256);
+            builder.Property(f => f.Role_id).IsRequired().HasMaxLength(256);
            
         }
     }
